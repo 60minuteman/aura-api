@@ -1,0 +1,237 @@
+# ===================================
+# Dependencies & Package Managers
+# ===================================
+node_modules/
+/.pnp
+.pnp.js
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# ===================================
+# Environment Variables & Secrets
+# ===================================
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.staging
+.env.staging.local
+.env.production
+.env.production.local
+
+# Allow .env.example files (they should contain only placeholder values)
+!.env.example
+
+# API Keys and sensitive files
+*.pem
+*.key
+*.cert
+*.p12
+*.pfx
+google-cloud-key.json
+service-account-key.json
+firebase-config.json
+
+# ===================================
+# Documentation & Markdown Files
+# ===================================
+*.md
+!README.md
+
+# ===================================
+# Testing Files
+# ===================================
+/test/
+*.test.js
+*.test.ts
+*.spec.js
+*.spec.ts
+test-*.js
+test-*.ts
+final-test.js
+test-aura-flow.js
+test-image.jpg
+test-image.png
+
+# ===================================
+# Build Output & Compiled Files
+# ===================================
+/dist/
+/build/
+*.tsbuildinfo
+*.js.map
+
+# ===================================
+# NestJS & TypeScript Specific
+# ===================================
+/generated/
+/prisma/generated/
+/prisma/migrations/
+
+# ===================================
+# Testing & Coverage
+# ===================================
+/coverage/
+/.nyc_output
+*.lcov
+
+# ===================================
+# Logs
+# ===================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# ===================================
+# Runtime & Process Files
+# ===================================
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# ===================================
+# Cache & Temporary Files
+# ===================================
+.npm
+.eslintcache
+.stylelintcache
+.cache
+.parcel-cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+*.tmp
+*.temp
+
+# ===================================
+# IDE & Editor Files
+# ===================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.vscode-test
+
+# ===================================
+# OS Generated Files
+# ===================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ===================================
+# Docker & Database
+# ===================================
+/postgres-data/
+docker-compose.override.yml
+
+# ===================================
+# Uploads & User Content
+# ===================================
+/uploads/
+/temp/
+/tmp/
+/public/uploads/
+
+# ===================================
+# Project Specific Files
+# ===================================
+cloudinary-preview.html
+Endpoints
+
+# ===================================
+# Optional Dependencies
+# ===================================
+.grunt
+bower_components
+jspm_packages/
+web_modules/
+
+# ===================================
+# Output of 'npm pack'
+# ===================================
+*.tgz
+
+# ===================================
+# Yarn Integrity file
+# ===================================
+.yarn-integrity
+
+# ===================================
+# Runtime REPL history
+# ===================================
+.node_repl_history
+
+# ===================================
+# Microbundle cache
+# ===================================
+.fusebox/
+
+# ===================================
+# DynamoDB Local files
+# ===================================
+.dynamodb/
+
+# ===================================
+# TernJS port file
+# ===================================
+.tern-port
+
+# ===================================
+# Serverless directories
+# ===================================
+.serverless/
+
+# ===================================
+# Next.js specific (if using)
+# ===================================
+.next/
+out/
+
+# ===================================
+# Nuxt.js specific (if using)
+# ===================================
+.nuxt/
+
+# ===================================
+# Gatsby specific (if using)
+# ===================================
+public/
+
+# ===================================
+# Storybook build outputs
+# ===================================
+build-storybook.log
+
+# ===================================
+# Cypress
+# ===================================
+cypress/videos/
+cypress/screenshots/
+
+# ===================================
+# Rush
+# ===================================
+common/deploy/
+common/temp/
+common/autoinstallers/*/.npmrc
+**/.rush/temp/
+
+# Local Netlify folder
+.netlify

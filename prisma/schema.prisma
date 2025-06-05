@@ -1,0 +1,144 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String   @id @default(cuid())
+  firstName         String
+  lastName          String
+  phoneNumber       String   @unique
+  birthday          DateTime
+  isVerified        Boolean  @default(false)
+  
+  // Profile picture fields
+  profilePictureUrl String?  // Cloudinary URL for profile picture
+  profilePublicId   String?  // Cloudinary public ID for profile picture
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  otps        OTP[]
+  images      Image[]
+  auras       Aura[]
+  followers   Follow[] @relation("UserFollowers")
+  following   Follow[] @relation("UserFollowing")
+
+  @@map("users")
+}
+
+model OTP {
+  id          String   @id @default(cuid())
+  phoneNumber String
+  code        String
+  expiresAt   DateTime
+  isUsed      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  // Relations
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String?
+
+  @@map("otps")
+}
+
+model Image {
+  id               String   @id @default(cuid())
+  originalUrl      String   // Cloudinary original URL
+  processedUrl     String?  // Cloudinary processed URL
+  publicId         String   // Cloudinary public ID for transformations
+  fileName         String
+  fileSize         Int
+  mimeType         String
+  width            Int?
+  height           Int?
+  isProcessed      Boolean  @default(false)
+  processingStatus String   @default("pending") // pending, processing, completed, failed
+  
+  // Cloudinary AI processing results
+  croppedUrl           String?
+  backgroundRemovedUrl String?
+  faceDetectedUrl      String?
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Relations
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  aura   Aura?
+
+  @@map("images")
+}
+
+model Aura {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  mood        String? // e.g., "mysterious", "vibrant", "calming"
+  colors      String[] // Extracted dominant colors from Cloudinary
+  keywords    String[] // AI-generated keywords
+  confidence  Float?   // AI confidence score (0-1)
+  likes       Int      @default(0)
+  shares      Int      @default(0)
+  
+  // Cloudinary aura variations
+  mysteriousAuraUrl String?
+  vibrantAuraUrl    String?
+  calmingAuraUrl    String?
+  energeticAuraUrl  String?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  image   Image  @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  imageId String @unique
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String
+
+  @@map("auras")
+}
+
+model Follow {
+  id          String   @id @default(cuid())
+  followerId  String
+  followingId String
+  createdAt   DateTime @default(now())
+
+  // Relations
+  follower  User @relation("UserFollowing", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("UserFollowers", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+  @@map("follows")
+}
+
+model LeaderboardEntry {
+  id       String @id @default(cuid())
+  userId   String @unique
+  score    Int    @default(0) // Based on auras created, likes received, etc.
+  rank     Int?   // Current rank position
+  week     Int    // Week number for weekly leaderboards
+  month    Int    // Month number for monthly leaderboards
+  year     Int    // Year for yearly leaderboards
+  category String @default("overall") // overall, weekly, monthly, yearly
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, week, month, year, category])
+  @@map("leaderboard_entries")
+}
